@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  postgis:
+    image: postgis/postgis:16-3.4
+    container_name: civiclens-postgis
+    environment:
+      POSTGRES_DB: civiclens_db
+      POSTGRES_USER: civic_admin
+      POSTGRES_PASSWORD: civic_password_2026
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgis_data:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  postgis_data:
