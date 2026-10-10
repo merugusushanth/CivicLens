@@ -1,69 +1,67 @@
 import React from 'react';
-import { Camera, MapPin, BarChart3, AlertTriangle, ShieldCheck, Sparkles } from 'lucide-react';
+import { Camera, MapPin, BarChart3, Shield, CheckCircle2 } from 'lucide-react';
 
 export default function Navbar({ activeTab, setActiveTab, onOpenReporter, issueCount }) {
   return (
-    <header className="sticky top-0 z-50 glass-panel border-b border-slate-800">
+    <header className="sticky top-0 z-50 bg-slate-900 border-b border-slate-800 shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         
-        {/* Brand Logo & Tagline */}
+        {/* Brand Logo & Professional Municipal Header */}
         <div className="flex items-center space-x-3 cursor-pointer" onClick={() => setActiveTab('map')}>
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-500 to-indigo-600 p-0.5 shadow-lg shadow-sky-500/20">
-            <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-between justify-center">
-              <MapPin className="w-5 h-5 text-sky-400 animate-pulse" />
-            </div>
+          <div className="w-9 h-9 rounded-lg bg-sky-700 flex items-center justify-center text-white shadow-sm">
+            <Shield className="w-5 h-5" />
           </div>
           <div>
             <div className="flex items-center space-x-2">
-              <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-white via-slate-200 to-sky-400 bg-clip-text text-transparent">
+              <span className="text-lg font-bold text-white tracking-tight">
                 CivicLens
               </span>
-              <span className="px-2 py-0.5 text-[10px] font-semibold tracking-wider text-sky-400 bg-sky-500/10 border border-sky-500/20 rounded-full flex items-center gap-1">
-                <Sparkles className="w-3 h-3" /> AI Vision
+              <span className="px-2 py-0.5 text-[10px] font-medium text-sky-300 bg-sky-950 border border-sky-800 rounded">
+                Telangana GIS Portal
               </span>
             </div>
-            <p className="text-[11px] text-slate-400 hidden sm:block">Urban Infrastructure Tracking System</p>
+            <p className="text-[11px] text-slate-400 hidden sm:block">Urban Infrastructure Tracking & Grievance System</p>
           </div>
         </div>
 
         {/* Navigation Controls */}
-        <div className="flex items-center space-x-2">
-          <nav className="flex items-center bg-slate-900/80 p-1 rounded-xl border border-slate-800">
+        <div className="flex items-center space-x-3">
+          <nav className="flex items-center bg-slate-950 p-1 rounded-lg border border-slate-800 text-xs">
             <button
               onClick={() => setActiveTab('map')}
-              className={`flex items-center space-x-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+              className={`flex items-center space-x-2 px-3 py-1.5 rounded font-medium transition-all ${
                 activeTab === 'map'
-                  ? 'bg-sky-500 text-white shadow-md shadow-sky-500/25'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
+                  ? 'bg-sky-600 text-white shadow-sm'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
               }`}
             >
-              <MapPin className="w-4 h-4" />
+              <MapPin className="w-3.5 h-3.5" />
               <span>Spatial Map</span>
-              <span className="ml-1 px-1.5 py-0.2 text-[10px] bg-slate-950/50 rounded-full text-slate-300 font-mono">
+              <span className="ml-1 px-1.5 py-0.2 text-[10px] bg-slate-900 text-slate-300 rounded font-mono font-semibold">
                 {issueCount}
               </span>
             </button>
 
             <button
               onClick={() => setActiveTab('analytics')}
-              className={`flex items-center space-x-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+              className={`flex items-center space-x-2 px-3 py-1.5 rounded font-medium transition-all ${
                 activeTab === 'analytics'
-                  ? 'bg-sky-500 text-white shadow-md shadow-sky-500/25'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
+                  ? 'bg-sky-600 text-white shadow-sm'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
               }`}
             >
-              <BarChart3 className="w-4 h-4" />
-              <span>Analytics</span>
+              <BarChart3 className="w-3.5 h-3.5" />
+              <span>Analytics Dashboard</span>
             </button>
           </nav>
 
           {/* Report Button */}
           <button
             onClick={onOpenReporter}
-            className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-sky-500/20 hover:shadow-sky-500/40 transition-all hover:scale-[1.02] active:scale-[0.98]"
+            className="flex items-center space-x-2 px-3.5 py-1.5 bg-sky-600 hover:bg-sky-500 text-white rounded-lg text-xs font-semibold shadow-sm transition-all active:scale-[0.98]"
           >
-            <Camera className="w-4 h-4" />
-            <span className="hidden sm:inline">Report Issue with AI</span>
+            <Camera className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Report Issue</span>
             <span className="sm:hidden">Report</span>
           </button>
         </div>

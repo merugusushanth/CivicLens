@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Upload, X, Sparkles, MapPin, CheckCircle2, AlertTriangle, Loader2 } from 'lucide-react';
+import { Upload, X, Shield, MapPin, CheckCircle2, AlertTriangle, Loader2 } from 'lucide-react';
 import { classifyImage, createIssue, isValidCoordinates } from '../../services/api';
 
 export default function IssueReporterModal({ isOpen, onClose, onIssueCreated, onRequestMapPicker }) {
@@ -26,7 +26,6 @@ export default function IssueReporterModal({ isOpen, onClose, onIssueCreated, on
     const objectUrl = URL.createObjectURL(selectedFile);
     setPreviewUrl(objectUrl);
 
-    // Run AI Classification
     setIsAnalyzing(true);
     try {
       const result = await classifyImage(selectedFile);
@@ -79,33 +78,33 @@ export default function IssueReporterModal({ isOpen, onClose, onIssueCreated, on
   };
 
   return (
-    <div className="fixed inset-0 z-[2000] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-fade-in">
-      <div className="relative w-full max-w-2xl glass-panel rounded-2xl border border-slate-800 shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
+    <div className="fixed inset-0 z-[2000] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
+      <div className="relative w-full max-w-2xl bg-slate-900 rounded-xl border border-slate-800 shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
         
         {/* Modal Header */}
-        <div className="px-6 py-4 border-b border-slate-800 flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <div className="p-2 rounded-lg bg-sky-500/10 border border-sky-500/30 text-sky-400">
-              <Sparkles className="w-5 h-5" />
+        <div className="px-6 py-4 border-b border-slate-800 flex items-center justify-between bg-slate-900">
+          <div className="flex items-center space-x-2.5">
+            <div className="p-2 rounded bg-sky-950 border border-sky-800 text-sky-400">
+              <Shield className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-white">Report Civic Issue with AI</h3>
-              <p className="text-xs text-slate-400">Upload a photo & pick defect location on map</p>
+              <h3 className="text-base font-bold text-white">Submit Infrastructure Grievance Report</h3>
+              <p className="text-xs text-slate-400">Upload defect photo & verify AI classification metadata</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-all"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Modal Scrollable Body */}
-        <form onSubmit={handleSubmit} className="p-6 overflow-y-auto space-y-6">
+        {/* Modal Body */}
+        <form onSubmit={handleSubmit} className="p-6 overflow-y-auto space-y-5 text-xs">
           
           {errorMsg && (
-            <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs flex items-center gap-2">
+            <div className="p-3 rounded bg-red-950 border border-red-800 text-red-300 flex items-center gap-2">
               <AlertTriangle className="w-4 h-4 shrink-0" />
               <span>{errorMsg}</span>
             </div>
@@ -113,56 +112,54 @@ export default function IssueReporterModal({ isOpen, onClose, onIssueCreated, on
 
           {/* Photo Dropzone & Preview */}
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-2">Issue Photo & AI Scanner</label>
+            <label className="block font-semibold text-slate-300 mb-1.5">Defect Photo & Image Classifier</label>
             {!previewUrl ? (
-              <label className="flex flex-col items-center justify-center w-full h-44 border-2 border-dashed border-slate-700 hover:border-sky-500/50 rounded-xl bg-slate-900/50 cursor-pointer transition-all hover:bg-slate-900">
-                <div className="flex flex-col items-center justify-center pt-5 pb-6 text-center">
-                  <Upload className="w-8 h-8 text-sky-400 mb-2 animate-bounce" />
-                  <p className="text-sm font-medium text-slate-200">Click or drag photo to scan with AI Vision</p>
-                  <p className="text-xs text-slate-500 mt-1">PNG, JPG, WEBP up to 10MB</p>
+              <label className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-slate-700 hover:border-sky-600 rounded-lg bg-slate-950 cursor-pointer transition-colors">
+                <div className="flex flex-col items-center justify-center p-4 text-center">
+                  <Upload className="w-6 h-6 text-sky-400 mb-2" />
+                  <p className="font-medium text-slate-200">Click or drag photo to upload</p>
+                  <p className="text-[11px] text-slate-500 mt-1">PNG, JPG, WEBP formats supported</p>
                 </div>
                 <input type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
               </label>
             ) : (
-              <div className="relative rounded-xl overflow-hidden border border-slate-700 bg-slate-900 h-48 flex items-center justify-center">
+              <div className="relative rounded-lg overflow-hidden border border-slate-700 bg-slate-950 h-44 flex items-center justify-center">
                 <img src={previewUrl} alt="Preview" className="w-full h-full object-cover" />
                 
-                {/* AI Analyzing Overlay */}
                 {isAnalyzing && (
-                  <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm flex flex-col items-center justify-center space-y-2">
-                    <Loader2 className="w-8 h-8 text-sky-400 animate-spin" />
-                    <p className="text-xs font-semibold text-sky-300 animate-pulse">Running PyTorch Vision Classifier...</p>
+                  <div className="absolute inset-0 bg-slate-950/85 flex flex-col items-center justify-center space-y-2">
+                    <Loader2 className="w-7 h-7 text-sky-400 animate-spin" />
+                    <p className="text-xs font-medium text-sky-300">Processing Vision Classifier...</p>
                   </div>
                 )}
 
-                {/* Change photo button */}
-                <label className="absolute bottom-3 right-3 px-3 py-1 bg-slate-950/80 hover:bg-slate-900 text-xs text-slate-300 border border-slate-700 rounded-lg cursor-pointer">
-                  Change Photo
+                <label className="absolute bottom-3 right-3 px-3 py-1 bg-slate-900 hover:bg-slate-800 text-xs text-slate-300 border border-slate-700 rounded cursor-pointer font-medium">
+                  Change Image
                   <input type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
                 </label>
               </div>
             )}
           </div>
 
-          {/* AI Result Card */}
+          {/* AI Result Banner */}
           {aiPrediction && (
-            <div className="p-4 rounded-xl bg-gradient-to-r from-sky-950/40 via-slate-900/60 to-indigo-950/40 border border-sky-500/30 space-y-3">
+            <div className="p-3.5 rounded bg-slate-950 border border-sky-800/80 space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-sky-400 flex items-center gap-1.5">
-                  <Sparkles className="w-4 h-4 text-sky-400" /> AI Classification Match
+                <span className="font-bold text-sky-400 flex items-center gap-1.5">
+                  <Shield className="w-4 h-4 text-sky-400" /> AI Classification Match Result
                 </span>
-                <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-sky-500/20 text-sky-300 border border-sky-500/40">
-                  {Math.round((aiPrediction.confidence || 0.95) * 100)}% Match
+                <span className="px-2 py-0.5 rounded text-[11px] font-mono font-bold bg-sky-950 text-sky-300 border border-sky-800">
+                  {Math.round((aiPrediction.confidence || 0.95) * 100)}% Confidence
                 </span>
               </div>
               <div className="grid grid-cols-2 gap-4 text-xs">
                 <div>
-                  <span className="text-slate-400">Detected Category:</span>
+                  <span className="text-slate-400">Category:</span>
                   <p className="font-semibold text-slate-100">{aiPrediction.category}</p>
                 </div>
                 <div>
-                  <span className="text-slate-400">Assessed Severity:</span>
-                  <p className="font-semibold text-amber-400">{aiPrediction.severity}/5 Hazard Level</p>
+                  <span className="text-slate-400">Assessed Hazard Level:</span>
+                  <p className="font-semibold text-amber-400">{aiPrediction.severity}/5 Severity</p>
                 </div>
               </div>
             </div>
@@ -171,23 +168,23 @@ export default function IssueReporterModal({ isOpen, onClose, onIssueCreated, on
           {/* Form Fields Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">Report Title</label>
+              <label className="block font-semibold text-slate-300 mb-1">Issue Title</label>
               <input
                 type="text"
                 required
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="e.g. Hazardous Pothole on HITEC City Rd"
-                className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-slate-100 focus:outline-none focus:border-sky-500"
+                className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded text-slate-100 focus:outline-none focus:border-sky-500"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">Category</label>
+              <label className="block font-semibold text-slate-300 mb-1">Defect Category</label>
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-slate-100 focus:outline-none focus:border-sky-500"
+                className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded text-slate-100 focus:outline-none focus:border-sky-500"
               >
                 <option value="Pothole">Pothole</option>
                 <option value="Garbage Accumulation">Garbage Accumulation</option>
@@ -201,14 +198,14 @@ export default function IssueReporterModal({ isOpen, onClose, onIssueCreated, on
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">Severity Rating (1-5)</label>
+              <label className="block font-semibold text-slate-300 mb-1">Severity Rating (1-5)</label>
               <input
                 type="range"
                 min="1"
                 max="5"
                 value={severity}
                 onChange={(e) => setSeverity(e.target.value)}
-                className="w-full accent-sky-500"
+                className="w-full accent-sky-500 mt-1"
               />
               <div className="flex justify-between text-[10px] text-slate-400 mt-1">
                 <span>1 (Minor)</span>
@@ -218,66 +215,66 @@ export default function IssueReporterModal({ isOpen, onClose, onIssueCreated, on
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">Address / Landmark</label>
+              <label className="block font-semibold text-slate-300 mb-1">Address / Location Landmark</label>
               <input
                 type="text"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
                 placeholder="e.g. HITEC City, Hyderabad, Telangana"
-                className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-slate-100 focus:outline-none focus:border-sky-500"
+                className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded text-slate-100 focus:outline-none focus:border-sky-500"
               />
             </div>
           </div>
 
           {/* Interactive Coordinates & Map Picker Trigger */}
-          <div className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2">
+          <div className="p-3 rounded bg-slate-950 border border-slate-800 space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-slate-200 flex items-center gap-1.5">
-                <MapPin className="w-4 h-4 text-sky-400" /> Issue Location Coordinates
+              <span className="font-semibold text-slate-200 flex items-center gap-1.5">
+                <MapPin className="w-4 h-4 text-sky-400" /> Geographic Coordinates
               </span>
               {onRequestMapPicker && (
                 <button
                   type="button"
                   onClick={onRequestMapPicker}
-                  className="px-2.5 py-1 text-[11px] font-semibold text-sky-400 bg-sky-500/10 border border-sky-500/30 rounded-lg hover:bg-sky-500/20 transition-all flex items-center gap-1"
+                  className="px-2.5 py-1 text-[11px] font-semibold text-sky-400 bg-sky-950 border border-sky-800 rounded hover:bg-sky-900 transition-colors flex items-center gap-1"
                 >
-                  <MapPin className="w-3 h-3" /> Pick Location on Map
+                  <MapPin className="w-3 h-3" /> Select Pin on Map
                 </button>
               )}
             </div>
 
-            <div className="grid grid-cols-2 gap-3 text-xs">
+            <div className="grid grid-cols-2 gap-3">
               <div>
-                <span className="text-[10px] text-slate-400">Latitude (N)</span>
+                <span className="text-[10px] text-slate-400">Latitude (°N)</span>
                 <input
                   type="number"
                   step="any"
                   value={location.lat}
                   onChange={(e) => setLocation({ ...location, lat: parseFloat(e.target.value) })}
-                  className="w-full px-2.5 py-1 bg-slate-950 border border-slate-700 rounded-lg font-mono text-slate-100"
+                  className="w-full px-2.5 py-1 bg-slate-900 border border-slate-700 rounded font-mono text-slate-100"
                 />
               </div>
               <div>
-                <span className="text-[10px] text-slate-400">Longitude (E)</span>
+                <span className="text-[10px] text-slate-400">Longitude (°E)</span>
                 <input
                   type="number"
                   step="any"
                   value={location.lng}
                   onChange={(e) => setLocation({ ...location, lng: parseFloat(e.target.value) })}
-                  className="w-full px-2.5 py-1 bg-slate-950 border border-slate-700 rounded-lg font-mono text-slate-100"
+                  className="w-full px-2.5 py-1 bg-slate-900 border border-slate-700 rounded font-mono text-slate-100"
                 />
               </div>
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1">Description & Field Notes</label>
+            <label className="block font-semibold text-slate-300 mb-1">Description & Field Notes</label>
             <textarea
               rows="3"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Add details regarding cause, traffic impact, or hazard risks..."
-              className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-slate-100 focus:outline-none focus:border-sky-500 resize-none"
+              className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded text-slate-100 focus:outline-none focus:border-sky-500 resize-none"
             />
           </div>
 
@@ -286,17 +283,17 @@ export default function IssueReporterModal({ isOpen, onClose, onIssueCreated, on
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-xs text-slate-400 hover:text-white transition-all"
+              className="px-4 py-2 text-slate-400 hover:text-white transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isSubmitting || isAnalyzing}
-              className="px-6 py-2.5 bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-sky-500/20 transition-all disabled:opacity-50 flex items-center space-x-2"
+              className="px-5 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded font-semibold transition-colors disabled:opacity-50 flex items-center space-x-2"
             >
               {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle2 className="w-4 h-4" />}
-              <span>Submit Civic Report</span>
+              <span>Submit Report</span>
             </button>
           </div>
 
